@@ -8,11 +8,11 @@
         <style type="text/css">
             .sizebutton{
                 heigh:200px;
-                width:200px;
+                width:300px;
             }
             
         </style>
-        <title>Ka ra co le</title>
+        <title>Karaoke Restaurant</title>
     </head>
     <body>
         <div align="center">

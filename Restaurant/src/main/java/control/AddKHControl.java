@@ -1,10 +1,13 @@
-
 package control;
 
 import dao.KhachHangDAO;
+import entity.DatPhong;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +39,7 @@ public class AddKHControl extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddKHControl</title>");            
+            out.println("<title>Servlet AddKHControl</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet AddKHControl at " + request.getContextPath() + "</h1>");
@@ -74,16 +77,30 @@ public class AddKHControl extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-        String kname = request.getParameter("ten");
-        String ksdt = request.getParameter("sdt");
-        String kns = request.getParameter("ns");
-        String kdtl = request.getParameter("dtl");
-        int kdtl2 = Integer.parseInt(kdtl);
-        Date kns2 = Date.valueOf(kns);
-        
-        KhachHangDAO khd = new KhachHangDAO();
-        khd.insertKH(kname, ksdt, kns2, kdtl2);
-        response.sendRedirect("loadkh");
+        PrintWriter out = response.getWriter();
+        try {
+
+            String kname = request.getParameter("ten");
+            String ksdt = request.getParameter("sdt");
+            String kns = request.getParameter("ns");
+            String kdtl = request.getParameter("dtl");
+            int kdtl2 = Integer.parseInt(kdtl);
+            Date kns2 = Date.valueOf(kns);
+
+            KhachHangDAO khd = new KhachHangDAO();
+            khd.insertKH(kname, ksdt, kns2, kdtl2);
+
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Thêm thành công');");
+            out.println("location='gdChinhLT.jsp';");
+            out.println("</script>");
+
+        } catch (Exception e) {
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Thêm thất bại');");
+            out.println("location='gdChinhLT.jsp';");
+            out.println("</script>");
+        }
     }
 
     /**

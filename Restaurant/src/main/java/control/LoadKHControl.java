@@ -1,11 +1,15 @@
-
 package control;
 
 import dao.KhachHangDAO;
+import entity.DatPhong;
 import entity.KhachHang;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +37,7 @@ public class LoadKHControl extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoadKHControl</title>");            
+            out.println("<title>Servlet LoadKHControl</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LoadKHControl at " + request.getContextPath() + "</h1>");
@@ -57,9 +61,28 @@ public class LoadKHControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
+        String giov = request.getParameter("giovao");
+        String gior = request.getParameter("giora");
+        String n = request.getParameter("ngay");
+        Time giovao = Time.valueOf(giov);
+        Time giora = Time.valueOf(gior);
+        Date ngay = Date.valueOf(n);
+        String phongid = request.getParameter("phongid");
+        String[] nhanviencaids = request.getParameterValues("nhanviencaid");
+        List<Integer> nhanviencaids2 = new ArrayList<Integer>();
+        for(String nvcaid: nhanviencaids){
+            int nhanviencaid = Integer.parseInt(nvcaid);
+            nhanviencaids2.add(nhanviencaid);
+        }
+        
+        DatPhong datPhong = new DatPhong(giovao, giora, ngay);
+        datPhong.setNhanviencaids(nhanviencaids2);
+        datPhong.setPhongid(Integer.parseInt(phongid));
+
         KhachHangDAO khd = new KhachHangDAO();
-        ArrayList<KhachHang> list = khd.getAllKhachHang();
-        request.setAttribute("listKH", list);
+        ArrayList<KhachHang> khlist = khd.getAllKhachHang();
+        datPhong.setKhList(khlist);
+        request.setAttribute("datPhong", datPhong);
         request.getRequestDispatcher("gdThongTinKhach.jsp").forward(request, response);
     }
 

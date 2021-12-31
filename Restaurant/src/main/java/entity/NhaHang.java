@@ -6,7 +6,7 @@ public class NhaHang {
     private String ten, sdt, diaChi, mota;
 
     public NhaHang() {
-        super();
+        
     }
 
     public NhaHang(int id, String ten, String sdt, String diaChi, String mota) {
